@@ -3,11 +3,10 @@ const Sauce = require('../models/sauce');
 
 //CREATE PAS FINI
 exports.createSauce = (req, res, next) => {
-    const sauceJson = JSON.parse(req.body.sauce);
-    delete sauceJson._id;
-    delete sauceJson.userId;
+    const objetSauce = JSON.parse(req.body.sauce);
+    delete objetSauce.userId;
     const sauce = new Sauce({
-        ... sauceJson,
+        ... objetSauce,
         userId: req.auth.userId,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     });

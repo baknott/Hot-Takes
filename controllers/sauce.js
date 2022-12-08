@@ -1,7 +1,7 @@
 const Sauce = require('../models/sauce');
 
 
-//CREATE PAS FINI
+//CREATE PAS FINI (ne peut pas creer de deuxieme sauce)
 exports.createSauce = (req, res, next) => {
     const objetSauce = JSON.parse(req.body.sauce);
     delete objetSauce.userId;
@@ -11,71 +11,35 @@ exports.createSauce = (req, res, next) => {
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     });
   sauce.save()
-  .then(() => { res.status(201).json({ message: 'Objet enregistré!'})})
+    .then((sauce) => { res.status(201).json({ sauce, message: 'Objet enregistré!'})})
     .catch(error => { res.status(400).json({ error})})
 };
 
-//getOne OK
+//getOneSauce OK
 exports.getOneSauce = (req, res, next) => {
-  Sauce.findOne({
-    _id: req.params.id
-  }).then(
-    (sauce) => {
-      res.status(200).json(sauce);
-    }
-  ).catch(
-    (error) => {
-      res.status(404).json({
-        error: error
-      });
-    }
-  );
+  Sauce.findOne({_id: req.params.id})
+  .then(sauce => {res.status(200).json(sauce)})
+  .catch(error => {res.status(404).json({ error })});
 };
 
-//modify PAS FINI
+//updateSauce OK
 exports.updateSauce = (req, res, next) => {
-  const thing = new Thing({
-    _id: req.params.id,
-    title: req.body.title,
-    description: req.body.description,
-    imageUrl: req.body.imageUrl,
-    price: req.body.price,
-    userId: req.body.userId
-  });
-  Thing.updateOne({_id: req.params.id}, thing).then(
-    () => {
-      res.status(201).json({
-        message: 'Thing updated successfully!'
-      });
-    }
-  ).catch(
-    (error) => {
-      res.status(400).json({
-        error: error
-      });
-    }
-  );
+  Sauce.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
+  .then(() => res.status(200).json({ message: 'Objet modifié !'}))
+    .catch(error => res.status(400).json({ error }));
 };
 
+//delateSauce OK
 exports.deleteSauce = (req, res, next) => {
-  Sauce.deleteOne({_id: req.params.id}).then(
-    () => {
-      res.status(200).json({
-        message: 'Deleted!'
-      });
-    }
-  ).catch(
-    (error) => {
-      res.status(400).json({
-        error: error
-      });
-    }
-  );
+  Sauce.deleteOne({_id: req.params.id})
+  .then(() => {res.status(200).json({message: 'Deleted!'})})
+  .catch((error) => {res.status(400).json({error})});
 };
 
-//getAll OK
+//getAllSauce OK
 exports.getAllSauce = (req, res, next) => {
     Sauce.find()
         .then(sauces => res.status(200).json(sauces))
         .catch(error => res.status(404).json({ error }));
 };
+

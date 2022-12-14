@@ -6,6 +6,7 @@ const multer = require('../middleware/multer-config');
 
 const sauceCtrl = require('../controllers/sauce');
 
+//Récupération des différents controllers en fonction du type de requête attendu
 router.get('/', auth, sauceCtrl.getAllSauce);
 router.get('/:id', auth, sauceCtrl.getOneSauce);
 router.post('/', auth, multer, sauceCtrl.createSauce);

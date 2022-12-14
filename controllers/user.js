@@ -7,6 +7,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const AUTH_TOKEN = process.env.SECRET_TOKEN;
 
+//Inscription sur Hot Takes
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
       .then(hash => {
@@ -21,16 +22,17 @@ exports.signup = (req, res, next) => {
       .catch(error => res.status(500).json({ error }));
   };
 
+  //Connexion a son compte Hot Takes
   exports.login = (req, res, next) => {
     User.findOne({ email: req.body.email })
         .then(user => {
             if (!user) {
-                return res.status(401).json({ error: 'Utilisateur non trouvé !' });
+                return res.status(401).json({ error: 'Utilisateur et/ou mot de passe incorrect' });
             }
             bcrypt.compare(req.body.password, user.password)
                 .then(valid => {
                     if (!valid) {
-                        return res.status(401).json({ error: 'Mot de passe incorrect !' });
+                        return res.status(401).json({ error: 'Utilisateur et/ou mot de passe incorrect' });
                     }
                     res.status(200).json({
                         userId: user._id,

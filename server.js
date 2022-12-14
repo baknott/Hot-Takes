@@ -12,7 +12,12 @@ const normalizePort = val => {
   }
   return false;
 };
-const port = normalizePort(process.env.PORT || '3000');
+
+const dotenv = require('dotenv');
+dotenv.config();
+const PORT_SERV = process.env.PORT
+
+const port = normalizePort(process.env.PORT || PORT_SERV);
 app.set('port', port);
 
 const errorHandler = error => {

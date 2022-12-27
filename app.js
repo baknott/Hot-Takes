@@ -5,6 +5,7 @@ const sauceRoutes = require('./routes/sauce')
 const path = require('path');
 const app = express();
 
+//Configuration mongoose
 mongoose.connect('mongodb+srv://baknott:Mushroom@cluster.5bzt2w5.mongodb.net/?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })

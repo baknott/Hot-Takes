@@ -43,7 +43,7 @@ exports.signup = (req, res, next) => {
                     }
                     res.status(200).json({
                         userId: user._id,
-                        token: jwt.sign(
+                        token: jwt.sign(  //la fonction sign de jsonwebtoken chiffre un nouveau token
                             { userId: user._id },
                             AUTH_TOKEN,
                             { expiresIn: '24h' }
